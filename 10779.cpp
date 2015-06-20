@@ -6,6 +6,21 @@
 	Submitted: 2015-06-14 19:40:25
 */
 
+/*
+	We have a maximum flow problem. Here's how I modeled it:
+		- Bob is node number 1 and his friends are numbered from 2 to n.
+		- Stickers are numbered from n+1 to n+k, we have k different stickers.
+		- Our sink is therefore n+k+1. The source is Bob.
+		- From each sticker we've got an edge to sink with capacity 1.
+		- From Bob, there's an edge to each sticker he has,
+		capacity being the number of stickers of this type he has.
+		- His friends are not that clever, so for each one of them
+		there's an edge to each sticker they have, but the capacity is
+		m-1 where m is the number of stickers of this type they have.
+		- If a friend doesn't have a sticker, them we add a edge from this
+		friend to this sticker with capacity 1.
+*/
+
 #include<iostream>
 #include<vector>
 #include<queue>
@@ -32,22 +47,6 @@ int main(void)
 	int n, k, s = 1, t, stickers, testCases, maxFlow, temp, numNodes;
 	
 	cin >> testCases;
-
-/*
-	We have a maximum flow problem. Here's how I modeled it:
-		- Bob is node number 1 and his friends are numbered from 2 to n.
-		- Stickers are numbered from n+1 to n+k, we have k different stickers.
-		- Our sink is therefore n+k+1. The source is Bob.
-		- From each sticker we've got an edge to sink with capacity 1.
-		- From Bob, there's an edge to each sticker he has,
-		capacity being the number of stickers of this type he has.
-		- His friends are not that clever, so for each one of them
-		there's an edge to each sticker they have, but the capacity is
-		m-1 where m is the number of stickers of this type they have.
-		- If a friend doesn't have a sticker, them we add a edge from this
-		friend to this sticker with capacity 1.
-
-*/
 
 	for(int caseNum = 1; caseNum <= testCases; caseNum++)
 	{
