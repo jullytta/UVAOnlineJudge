@@ -24,7 +24,6 @@ const int precision = 8;
 const double alleyLength = 10000;
 
 double searchCloser(double d);
-void printDouble(double x);
 
 vector<double> newPositions;
 
