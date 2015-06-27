@@ -6,16 +6,24 @@
 	Submitted: ?
 */
 
+/*
+	Comparing the poles based on their angle turned out to be a bad idea.
+	At least 1e-10 of error precision should be applied to get AC. 
+*/
+
 #include <iostream>
 #include <vector>
 #include <map>
 #include <cmath>
 #include <set>
+#include <iomanip>
 
 using namespace std;
 
 const int maxN = 100000;
 const int maxCoord = 10000;
+const long range = 10000000000;
+const double error = 1e-10;
 
 struct Pole{
 	double x, y, z, distance;
@@ -23,7 +31,7 @@ struct Pole{
 
 struct comparePoles {
     bool operator()(const Pole & a, const Pole & b) {
-        return ( a.x<b.x || a.y<b.y );
+        return ( a.x<b.x || (a.x==b.x && a.y<b.y) );
     }
 };
 
@@ -33,6 +41,7 @@ double distanceToTotem(double x, double y);
 // I can't find a way to keep only unique poles in a set. Some of them are missing. SOS
 set<Pole, comparePoles> notVisibleLights;
 map< double, vector<Pole> > polesByAngle;
+set<double> angles;
 
 int main(void){
 
@@ -47,19 +56,29 @@ int main(void){
 		caseNum++;
 		notVisibleLights.clear();
 		polesByAngle.clear();
+		angles.clear();
 
 		for(int i = 0; i < nPoles; i++){
 			cin >> x >> y >> z;
 			p = createPole(x,y,z,distanceToTotem(x,y));
 			angle = atan2(x, y);
+			for(set<double>::iterator it = angles.begin(); it != angles.end(); it++){
+				if(abs(angle-(*it)) <= error)
+					angle = (*it);
+				else if((*it) > angle) break;
+			}
 			polesByAngle[angle].push_back(p);
 			for(vector<Pole>::iterator it = polesByAngle[angle].begin(); it != polesByAngle[angle].end(); it++){
 				if((*it).distance < p.distance){
-					if((*it).z >= p.z)
+					if((*it).z >= p.z){
 						notVisibleLights.insert(p);
+						angles.insert(angle);
+					}
 				}
-				else if((*it).distance != p.distance && (*it).z <= p.z)
+				else if((*it).distance != p.distance && (*it).z <= p.z){
 					notVisibleLights.insert(*it);
+					angles.insert(angle);
+				}
 			}
 			
 		}
