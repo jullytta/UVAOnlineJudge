@@ -1,9 +1,9 @@
 /*
 	Code for 10927 - Bright lights
 	Language: C++
-	Runtime: ?
+	Runtime: 0.732
 	Author: Jullytta
-	Submitted: ?
+	Submitted: 2015-06-27 02:30:26
 */
 
 /*
