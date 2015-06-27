@@ -85,15 +85,3 @@ double searchCloser(double d){
 	return best;
 
 }
-
-void printDouble(double x){
-	int y = floor(x);
-	cout << "double x = " << x << " and int y = " << y << " so x-y = " << x-y << endl;
-	x -= y;
-	x *= precision;
-	int z = round(x);
-	if(z != 0){
-		while(!z%10) z /= 10;
-	}	
-	cout << y << "." << z;
-}
